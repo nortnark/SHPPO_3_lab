@@ -8,7 +8,15 @@ public class Task {
     private String task;
     Scanner scanner = new Scanner(System.in);
 
-    // Геттер для вывода значения приватной переменной
+    
+    
+    public Task() {}
+    
+    public Task(String t) {
+    	task = t;
+    }
+    
+ // Геттер для вывода значения приватной переменной
     public String getTask() {
         return task;
     }

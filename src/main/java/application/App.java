@@ -21,10 +21,16 @@ public class App {
 
         int choose = 1;
         int index;
-
+        TaskManager manager = new TaskManager(taskList);
+        Thread tr = new Thread(manager);
+        tr.start();
+        
         while (choose != 0) {
 
-            new Thread(new TaskManager(taskList)).start();
+            
+            
+        	manager.show();
+        	
 
             choose = scanner.nextInt();
 
@@ -47,6 +53,7 @@ public class App {
                     break;
             }
         }
+        tr.interrupt();
         context.close();
     }
 }

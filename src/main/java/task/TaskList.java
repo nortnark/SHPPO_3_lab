@@ -16,6 +16,11 @@ public class TaskList {
         task.makeNewTask();
         taskList.add(task);
     }
+    
+    public void addTask(Task task, boolean external){
+        taskList.add(task);
+    }
+    
 
     // Изменим задачу из списка
     public void editTask(int index) {

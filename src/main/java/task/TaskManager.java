@@ -18,34 +18,44 @@ public class TaskManager implements Runnable {
     public TaskManager(TaskList taskList) {
         this.taskList = taskList;
     }
+    
+    public void show() {
+        System.out.println("\n====My tasks====");
+        taskList.printList();
+        System.out.println();
+        System.out.println("=====Menu====");
+
+        if (taskList.getSize() == 0) {
+            noTaskMenu.buildMenu();
+        } else {
+            taskMenu.buildMenu();
+        }
+
+        System.out.println("Введите номер пункта меню: ");
+    }
+    
 
     public synchronized void run() {
-//        while (true) {
-//            // Проверяем, был ли получен сигнал на прерывание потока, если да, то выходим
-//            // из цикла и завершаем работу потока
-//            if (Thread.currentThread().isInterrupted()) {
-//                break;
-//            }
-
-            System.out.println("\n====My tasks====");
-            taskList.printList();
-            System.out.println();
-            System.out.println("=====Menu====");
-
-            if (taskList.getSize() == 0) {
-                noTaskMenu.buildMenu();
-            } else {
-                taskMenu.buildMenu();
-            }
-
-            System.out.println("Введите номер пункта меню: ");
-
-//            try {
-//                wait();
-//            } catch (InterruptedException e) {
-//                break;
-//            }
-//        }
-
+    	int task_index = 0;
+    	
+    	while(true)
+    	{
+	    	if (Thread.currentThread().isInterrupted()) break;
+	    	if (task_index < 10)
+	    		taskList.addTask(new Task("Task from another thread #" + task_index++), true);
+	    	else if (!taskList.taskList.isEmpty()) {
+	    		taskList.deleteTask(0);
+	    	}
+	    	else
+	    		task_index = 0;
+	    		
+	    	
+	    	try {
+	    		Thread.sleep(2000);
+	    	} catch (InterruptedException e) { 
+	    		// System.out.println("Поток остановлен!");
+	    		break;
+	    	}
+    	}
     }
 }
