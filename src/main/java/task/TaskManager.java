@@ -37,26 +37,25 @@ public class TaskManager extends TaskList implements Runnable  {
     }
 
     public synchronized void run() {
-        int LastInd;
 
         while(true)
         {
-        	LastInd = taskList.getLastChanged();
-        	//System.out.println(LastInd);
             if (Thread.currentThread().isInterrupted()) break;
             String s1, s2;
+            
             for (int i = 0; i < taskList.getSize(); i++) {
             	s1 = taskList.taskListArr.get(i).getTask();
-            	s2 = taskList.taskListArr.get(LastInd).getTask();
-            	if (i != LastInd)
-                if(s1.equals(s2)) {
-                    taskList.deleteTask(LastInd);
-                    break;
-                }
+            	for (int j = i + 1; j < taskList.getSize(); j++) {
+            		
+                	s2 = taskList.taskListArr.get(j).getTask();
+                    if(s1.equals(s2)) {
+                        taskList.deleteTask(j);
+                    }
+            	}
             }
 
             try {
-                Thread.sleep(2000);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 System.out.println("Поток остановлен!");
                 break;
