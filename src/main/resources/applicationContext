@@ -20,6 +20,7 @@
 
     <bean id="taskManager"
           class="task.TaskManager">
+        <constructor-arg ref="taskList"/>
         <property name="taskMenu" ref="taskMenu"/>
         <property name="noTaskMenu" ref="noTaskMenu"/>
     </bean>
