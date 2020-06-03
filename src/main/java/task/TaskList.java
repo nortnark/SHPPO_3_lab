@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskList {
-    protected List<Task> taskListArr = new ArrayList<Task>();
+    private List<Task> taskListArr = new ArrayList<Task>();
 
     // Получим размер массива (нужен для выбора меню)
     public int getSize() {
         return taskListArr.size();
     }
     
+    public Task get(int index) {
+    	return taskListArr.get(index);
+    }
 
     // Создадим новую задачу и добавим в список
     public void addTask(Task task){

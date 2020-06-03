@@ -3,7 +3,7 @@ package task;
 import application.App;
 import menu.MenuBuilder;
 
-public class TaskManager extends TaskList implements Runnable  {
+public class TaskManager implements Runnable  {
     static MenuBuilder taskMenu;
     static MenuBuilder noTaskMenu;
     private TaskList taskList;
@@ -44,10 +44,10 @@ public class TaskManager extends TaskList implements Runnable  {
             String s1, s2;
             
             for (int i = 0; i < taskList.getSize(); i++) {
-            	s1 = taskList.taskListArr.get(i).getTask();
+            	s1 = taskList.get(i).getTask();
             	for (int j = i + 1; j < taskList.getSize(); j++) {
             		
-                	s2 = taskList.taskListArr.get(j).getTask();
+                	s2 = taskList.get(j).getTask();
                     if(s1.equals(s2)) {
                         taskList.deleteTask(j);
                     }
