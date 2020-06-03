@@ -18,14 +18,14 @@ public class App {
         TaskList taskList = context.getBean("taskList", TaskList.class);
 
         Scanner scanner = new Scanner(System.in);
-//        Thread manager = new Thread(new TaskManager(taskList));
-//        manager.start();
 
         int choose = 1;
         int index;
 
         while (choose != 0) {
-            new Thread(new TaskManager(taskList));
+
+            new Thread(new TaskManager(taskList)).start();
+
             choose = scanner.nextInt();
 
             switch (choose) {

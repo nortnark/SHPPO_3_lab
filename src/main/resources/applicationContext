@@ -28,4 +28,5 @@
     <bean id="taskList"
           class="task.TaskList">
     </bean>
+
 </beans>
