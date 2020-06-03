@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="menu"
+          class="menu.Menu">
+    </bean>
+
+    <bean id="taskMenu"
+          class="menu.TaskMenu">
+        <constructor-arg ref="menu"/>
+    </bean>
+
+    <bean id="noTaskMenu"
+          class="menu.NoTaskMenu">
+        <constructor-arg ref="menu"/>
+    </bean>
+
+    <bean id="taskManager"
+          class="task.TaskManager">
+        <property name="taskMenu" ref="taskMenu"/>
+        <property name="noTaskMenu" ref="noTaskMenu"/>
+    </bean>
+
+    <bean id="taskList"
+          class="task.TaskList">
+    </bean>
+</beans>
