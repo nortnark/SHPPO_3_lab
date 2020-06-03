@@ -4,11 +4,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import task.Task;
 import task.TaskList;
 import task.TaskManager;
-//import threads.Writer;
 
 import java.util.Scanner;
 
 public class App {
+
+    public static int index;
     public static void main(String[] args) {
 
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
@@ -20,11 +21,15 @@ public class App {
         Scanner scanner = new Scanner(System.in);
 
         int choose = 1;
-        int index;
+        boolean checkingSwitch = true;
+
+        TaskManager manager = new TaskManager(taskList);
+        Thread thread = new Thread(manager);
+        thread.start();
 
         while (choose != 0) {
 
-            new Thread(new TaskManager(taskList)).start();
+            manager.showInterface();
 
             choose = scanner.nextInt();
 
@@ -34,6 +39,7 @@ public class App {
                     break;
                 case 1:
                     taskList.addTask(new Task());
+                    index = taskList.getSize() - 1;
                     break;
                 case 2:
                     System.out.println("Введите номер задачи, которую хотите изменить: ");
@@ -45,8 +51,22 @@ public class App {
                     index = scanner.nextInt();
                     taskList.deleteTask(index);
                     break;
+                case 4:
+                    System.out.println("Режим проверки дубликатов " + (checkingSwitch ? "включен" : "выключен"));
+                    if (checkingSwitch) {
+                        thread.interrupt();
+                        System.out.println("Поток прерван");
+                    } else {
+                        thread = new Thread(manager);
+                        thread.start();
+                        System.out.println("Поток запущен");
+                    }
+                    checkingSwitch = !checkingSwitch;
+
             }
         }
+        thread.interrupt();
         context.close();
     }
+
 }

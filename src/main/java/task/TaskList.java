@@ -16,6 +16,9 @@ public class TaskList {
         task.makeNewTask();
         taskList.add(task);
     }
+    public Task get(int index) {
+        return taskList.get(index);
+    }
 
     // Изменим задачу из списка
     public void editTask(int index) {

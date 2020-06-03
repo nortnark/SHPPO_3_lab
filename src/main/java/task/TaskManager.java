@@ -1,5 +1,6 @@
 package task;
 
+import application.App;
 import menu.MenuBuilder;
 
 public class TaskManager implements Runnable {
@@ -19,33 +20,43 @@ public class TaskManager implements Runnable {
         this.taskList = taskList;
     }
 
+    public void showInterface() {
+
+        System.out.println("\n====My tasks====");
+        taskList.printList();
+        System.out.println();
+        System.out.println("=====Menu====");
+
+        if (taskList.getSize() == 0) {
+            noTaskMenu.buildMenu();
+        } else {
+            taskMenu.buildMenu();
+        }
+
+        System.out.println("Введите номер пункта меню: ");
+    }
+
     public synchronized void run() {
-//        while (true) {
-//            // Проверяем, был ли получен сигнал на прерывание потока, если да, то выходим
-//            // из цикла и завершаем работу потока
-//            if (Thread.currentThread().isInterrupted()) {
-//                break;
-//            }
+        int taskIndex = App.index;
 
-            System.out.println("\n====My tasks====");
-            taskList.printList();
-            System.out.println();
-            System.out.println("=====Menu====");
+        while(true)
+        {
+            if (Thread.currentThread().isInterrupted()) break;
 
-            if (taskList.getSize() == 0) {
-                noTaskMenu.buildMenu();
-            } else {
-                taskMenu.buildMenu();
+            for (int i = 0; i < taskIndex; i++) {
+                if (i != taskIndex) {
+                    if(taskList.get(i).getTask().equals(taskList.get(taskIndex).getTask())) {
+                        taskList.deleteTask(taskIndex);
+                    }
+                }
             }
 
-            System.out.println("Введите номер пункта меню: ");
-
-//            try {
-//                wait();
-//            } catch (InterruptedException e) {
-//                break;
-//            }
-//        }
-
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                System.out.println("Поток остановлен!");
+                break;
+            }
+        }
     }
 }

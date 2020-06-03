@@ -12,6 +12,7 @@ public class TaskMenu extends MenuBuilder {
         menu.addCreator();
         menu.addEditor();
         menu.addCleaner();
+        menu.addSwitch();
         return menu;
     }
 }
