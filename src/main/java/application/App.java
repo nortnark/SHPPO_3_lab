@@ -1,33 +1,32 @@
 package application;
-
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import task.Task;
 import task.TaskList;
 import task.TaskManager;
 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.util.Scanner;
 
 public class App {
 
     public static int index;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
                 "applicationContext"
         );
-        TaskManager taskManager = context.getBean("taskManager", TaskManager.class);
+        TaskManager manager = context.getBean("taskManager", TaskManager.class);
         TaskList taskList = context.getBean("taskList", TaskList.class);
 
         Scanner scanner = new Scanner(System.in);
 
         int choose = 1;
-        boolean checkingSwitch = true;
+        boolean checkingSwitch = false;
 
-        TaskManager manager = new TaskManager(taskList);
-        Thread thread = new Thread(manager);
-        thread.start();
+        Thread thread = null;
 
         while (choose != 0) {
+
+            Thread.sleep(200);
 
             manager.showInterface();
 
@@ -52,17 +51,17 @@ public class App {
                     taskList.deleteTask(index);
                     break;
                 case 4:
-                    System.out.println("Режим проверки дубликатов " + (checkingSwitch ? "включен" : "выключен"));
                     if (checkingSwitch) {
                         thread.interrupt();
-                        System.out.println("Поток прерван");
+                        //System.out.println("Поток прерван");
                     } else {
                         thread = new Thread(manager);
                         thread.start();
-                        System.out.println("Поток запущен");
+                        //System.out.println("Поток запущен");
                     }
                     checkingSwitch = !checkingSwitch;
-
+                    System.out.println("Режим проверки дубликатов "
+                            + (checkingSwitch ? "включен" : "выключен"));
             }
         }
         thread.interrupt();

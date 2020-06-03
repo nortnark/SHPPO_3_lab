@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskList {
-    List<Task> taskList = new ArrayList<>();
+    volatile List<Task> taskList = new ArrayList<>();
 
     // Получим размер массива (нужен для выбора меню)
     public int getSize() {

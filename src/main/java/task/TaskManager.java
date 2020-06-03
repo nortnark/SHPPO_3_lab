@@ -1,6 +1,5 @@
 package task;
 
-import application.App;
 import menu.MenuBuilder;
 
 public class TaskManager implements Runnable {
@@ -37,22 +36,29 @@ public class TaskManager implements Runnable {
     }
 
     public synchronized void run() {
-        int taskIndex = App.index;
-
+        int removed = 0;
         while(true)
         {
             if (Thread.currentThread().isInterrupted()) break;
+            String s1, s2;
 
-            for (int i = 0; i < taskIndex; i++) {
-                if (i != taskIndex) {
-                    if(taskList.get(i).getTask().equals(taskList.get(taskIndex).getTask())) {
-                        taskList.deleteTask(taskIndex);
+            for (int i = 0; i < taskList.getSize(); i++) {
+                s1 = taskList.get(i).getTask();
+                for (int j = i + 1; j < taskList.getSize(); j++) {
+
+                    s2 = taskList.get(j).getTask();
+                    if(s1.equals(s2)) {
+                        taskList.deleteTask(j);
+                        ++removed;
                     }
                 }
             }
-
+            if (removed > 0) {
+                System.out.println("Удалено дубликатов: " + removed);
+            }
+            removed = 0;
             try {
-                Thread.sleep(20);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 System.out.println("Поток остановлен!");
                 break;
