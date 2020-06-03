@@ -1,8 +1,9 @@
 package task;
 
+import application.App;
 import menu.MenuBuilder;
 
-public class TaskManager implements Runnable {
+public class TaskManager extends TaskList implements Runnable  {
     static MenuBuilder taskMenu;
     static MenuBuilder noTaskMenu;
     private TaskList taskList;
@@ -18,8 +19,9 @@ public class TaskManager implements Runnable {
     public TaskManager(TaskList taskList) {
         this.taskList = taskList;
     }
-    
-    public void show() {
+
+    public void showInterface() {
+
         System.out.println("\n====My tasks====");
         taskList.printList();
         System.out.println();
@@ -33,29 +35,32 @@ public class TaskManager implements Runnable {
 
         System.out.println("Введите номер пункта меню: ");
     }
-    
 
     public synchronized void run() {
-    	int task_index = 0;
-    	
-    	while(true)
-    	{
-	    	if (Thread.currentThread().isInterrupted()) break;
-	    	if (task_index < 10)
-	    		taskList.addTask(new Task("Task from another thread #" + task_index++), true);
-	    	else if (!taskList.taskList.isEmpty()) {
-	    		taskList.deleteTask(0);
-	    	}
-	    	else
-	    		task_index = 0;
-	    		
-	    	
-	    	try {
-	    		Thread.sleep(2000);
-	    	} catch (InterruptedException e) { 
-	    		// System.out.println("Поток остановлен!");
-	    		break;
-	    	}
-    	}
+        int LastInd;
+
+        while(true)
+        {
+        	LastInd = taskList.getLastChanged();
+        	//System.out.println(LastInd);
+            if (Thread.currentThread().isInterrupted()) break;
+            String s1, s2;
+            for (int i = 0; i < taskList.getSize(); i++) {
+            	s1 = taskList.taskListArr.get(i).getTask();
+            	s2 = taskList.taskListArr.get(LastInd).getTask();
+            	if (i != LastInd)
+                if(s1.equals(s2)) {
+                    taskList.deleteTask(LastInd);
+                    break;
+                }
+            }
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                System.out.println("Поток остановлен!");
+                break;
+            }
+        }
     }
 }

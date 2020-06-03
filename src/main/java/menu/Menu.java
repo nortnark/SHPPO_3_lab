@@ -1,9 +1,6 @@
 package menu;
 
-import menu.items.CreateItem;
-import menu.items.DeleteItem;
-import menu.items.EditItem;
-import menu.items.ExitItem;
+import menu.items.*;
 
 public class Menu {
 
@@ -21,6 +18,10 @@ public class Menu {
 
     public void addCleaner() {
         System.out.println(new DeleteItem().addItem());
+    }
+
+    public void addSwitch() {
+        System.out.println(new CheckItem().addItem());
     }
 
 }
