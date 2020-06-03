@@ -37,7 +37,7 @@ public class TaskManager implements Runnable  {
     }
 
     public synchronized void run() {
-
+    	int removed = 0;
         while(true)
         {
             if (Thread.currentThread().isInterrupted()) break;
@@ -50,10 +50,16 @@ public class TaskManager implements Runnable  {
                 	s2 = taskList.get(j).getTask();
                     if(s1.equals(s2)) {
                         taskList.deleteTask(j);
+                        ++removed;
                     }
             	}
             }
-
+            
+            if(removed> 0)
+            	System.out.println("Удалено дубликатов: " + removed);
+            
+            removed = 0;
+            
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
