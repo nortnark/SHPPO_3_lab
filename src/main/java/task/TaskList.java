@@ -7,12 +7,12 @@ public class TaskList {
     volatile List<Task> taskList = new ArrayList<>();
 
     // Получим размер массива (нужен для выбора меню)
-    public int getSize() {
+    public synchronized int getSize() {
         return taskList.size();
     }
 
     // Создадим новую задачу и добавим в список
-    public void addTask(Task task){
+    public  void addTask(Task task){
         task.makeNewTask();
         taskList.add(task);
     }

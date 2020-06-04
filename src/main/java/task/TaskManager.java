@@ -6,6 +6,7 @@ public class TaskManager implements Runnable {
     static MenuBuilder taskMenu;
     static MenuBuilder noTaskMenu;
     private TaskList taskList;
+    public boolean DupRemoved = false;
 
     public void setTaskMenu(MenuBuilder builder) {
         this.taskMenu = builder;
@@ -35,21 +36,21 @@ public class TaskManager implements Runnable {
         System.out.println("Введите номер пункта меню: ");
     }
 
-    public synchronized void run() {
+    public void run() {
         int removed = 0;
-        while(true)
-        {
+        String s1, s2;
+
+        while (true) {
             if (Thread.currentThread().isInterrupted()) break;
-            String s1, s2;
 
             for (int i = 0; i < taskList.getSize(); i++) {
                 s1 = taskList.get(i).getTask();
                 for (int j = i + 1; j < taskList.getSize(); j++) {
-
                     s2 = taskList.get(j).getTask();
-                    if(s1.equals(s2)) {
+                    if (s1.equals(s2)) {
                         taskList.deleteTask(j);
                         ++removed;
+                        --j;
                     }
                 }
             }
@@ -57,10 +58,11 @@ public class TaskManager implements Runnable {
                 System.out.println("Удалено дубликатов: " + removed);
             }
             removed = 0;
+            DupRemoved = true;
+
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
-                System.out.println("Поток остановлен!");
                 break;
             }
         }
