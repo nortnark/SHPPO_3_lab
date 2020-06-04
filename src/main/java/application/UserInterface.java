@@ -39,13 +39,11 @@ public class UserInterface implements Runnable {
                     break;
                 case 1:
                     taskList.addTask(new Task());
-                    waitForFilter();
                     break;
                 case 2:
                     System.out.println("Введите номер задачи, которую хотите изменить: ");
                     index = scanner.nextInt();
                     taskList.editTask(index);
-                    waitForFilter();
                     break;
                 case 3:
                     System.out.println("Введите номер задачи, которую хотите удалить: ");
@@ -62,8 +60,8 @@ public class UserInterface implements Runnable {
                     checkingSwitch = !checkingSwitch;
                     System.out.println("Режим проверки дубликатов "
                             + (checkingSwitch ? "включен" : "выключен"));
-                    waitForFilter();
             }
+            waitForFilter();
         }
         System.out.println("Goodbye.");
         thread.interrupt();
